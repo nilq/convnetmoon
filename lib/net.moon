@@ -15,11 +15,9 @@ class Net
   make_layers: (defs) =>
     assert #defs >= 2, "'Net' needs least one input layer and one cost layer!"
     assert type defs[1].type == "input", "first layer of 'Net' must be input!"
-
     desugar = ->
       new_defs = {}
-      for i = 1, #defs
-        d = defs[i]
+      for i, d in ipairs defs
         if d.type == "softmax" or d.type == "svm"
           new_defs[#new_defs + 1] = {
             type: "fc",
@@ -42,37 +40,41 @@ class Net
 
         new_defs[#new_defs + 1] = d
 
-        if d.activation == "relu"
-          new_defs[#new_defs + 1] = {type: "relu"}
-        elseif d.activation == "sigmoid"
-          new_defs[#new_defs + 1] = {type: "sigmoid"}
-        elseif d.activation == "tanh"
-          new_defs[#new_defs + 1] = {type: "tanh"}
-        elseif d.activation == "sigmoid"
-          new_defs[#new_defs + 1] = {type: "sigmoid"}
-        elseif d.activation == "maxout"
-          gs = d.group_size or 2
-          new_defs[#new_defs + 1] = {type: "maxout", group_size: gs}
-        else
-          error "trying to use undefined activation '" .. d.activation .. "'"
+        if d.activation != nil
+          if d.activation == "relu"
+            new_defs[#new_defs + 1] = {type: "relu"}
+          elseif d.activation == "sigmoid"
+            new_defs[#new_defs + 1] = {type: "sigmoid"}
+          elseif d.activation == "tanh"
+            new_defs[#new_defs + 1] = {type: "tanh"}
+          elseif d.activation == "sigmoid"
+            new_defs[#new_defs + 1] = {type: "sigmoid"}
+          elseif d.activation == "maxout"
+            gs = d.group_size or 2
+            new_defs[#new_defs + 1] = {type: "maxout", group_size: gs}
+          else
+            error "trying to use undefined activation '" .. (d.activation or "nil") .. "'"
         if d.type != "dropout" and d.drop_prob != nil
           new_defs[#new_defs + 1] = {type: "dropout", drop_prob: d.drop_prob}
-        new_defs
-      -- end of 'desugar'
-      defs = desugar defs
+      new_defs
+    -- end of 'desugar'
+    defs = desugar defs
 
-      -- create layers
-      @layers = {}
+    -- create layers
+    @layers = {}
 
-      for i = 1, #defs
-        d = defs[i]
-        if i > 1
-          prev = @layers[i - 1]
+    for i, d in ipairs defs
+      if i > 1
+        prev = @layers[i - 1]
+        print @layers[1]
 
-          d.in_sx = prev.out_sx
-          d.in_sy = prev.out_sy
-          d.in_sz = prev.out_sz
+        d.in_sx = prev.out_sx
+        d.in_sy = prev.out_sy
+        d.in_sz = prev.out_sz
 
-        ----------------------------------
-        -- TODO: Construction of layers using switch!
-        ----------------------------------
+      ----------------------------------
+      -- TODO: Construction of layers using switch!
+      ----------------------------------
+
+      -- debug/test
+      @layers[#@layers + 1] = {out_sx: 1, out_sy: 1, out_sz: 1}
