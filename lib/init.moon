@@ -5,6 +5,8 @@ require "lib/vol_util"
 require "lib/net"
 require "lib/trainer"
 
+require "lib/dot_layer"
+
 math.sign = (n) ->
   if n < 0
     return -1
@@ -13,6 +15,8 @@ math.sign = (n) ->
   0
 
 n = Net!
+
+cl = ConvLayer {sx: 2, filters: 1, in_sz: 3, in_sx: 1, in_sy: 2}
 
 n\make_layers {
   {type: "input", out_sx: 1, out_sy: 1, out_sz: 1},
