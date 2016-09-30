@@ -66,7 +66,6 @@ class Net
     for i, d in ipairs defs
       if i > 1
         prev = @layers[i - 1]
-        print @layers[1]
 
         d.in_sx = prev.out_sx
         d.in_sy = prev.out_sy
@@ -78,3 +77,51 @@ class Net
 
       -- debug/test
       @layers[#@layers + 1] = {out_sx: 1, out_sy: 1, out_sz: 1}
+
+  forward: (vol, train) =>
+    act = @layers[1]\forward vol, train
+    for i = 2, #@layers
+      act = @layers[i]\forward act, train
+    act
+
+  get_cost_loss: (vol, y) =>
+    @forward vol, false
+    N = #@layers
+    loss = @layers[N - 1]\backward y
+    loss
+
+  -- backpropagation: compute gradients w.r.t. all parameters
+  backward: (y) =>
+    N = #@layers
+    loss = @layers[N - 1]\backward y
+    for i = N - 2, 1, -1
+      @layers[i]\backward!
+    loss
+
+  get_params_and_grads: =>
+    response = {}
+    for i = 1, #@layers
+      layer_response = @layers[i]\get_params_and_grads!
+      for j = 1, #layer_response
+        response[#response + 1] = layer_response[j]
+    response
+
+  get_prediction: =>
+    S = @layers[#@layers - 1]
+
+    assert S.layer_type == "softmax", "'get_prediction' assumes 'softmax' as last layer of network!"
+
+    p = S.out_act.w
+
+    max_v = p[1]
+    max_i = 0
+
+    for i = 1, #p
+      if p[i] > max_v
+        max_v = p[i]
+        max_i = i
+    return max_i
+
+  ----------------------------------
+  -- TODO: Add JSON load and save!
+  ----------------------------------
