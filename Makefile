@@ -1,2 +1,2 @@
 build:
-	moonc *.moon
+		moonc lib/*.moon
