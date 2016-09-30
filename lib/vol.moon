@@ -1,5 +1,4 @@
 export *
-
 ----------------------------------
 -- Vol is the basic building block of all data in a network.
 -- It's essentially just a 3D volume of numbers ...
@@ -11,13 +10,13 @@ export *
 class Vol
   new: (sx, sy, sz, c) =>
     -- if, for some reason 'sx' is a 1D table ...
-    if type sx == "table"
+    if (type sx) == "table"
       @sx = 1
       @sy = 1
       @sz = #sx
 
-      @w  = zeros @sz
-      @dw = zeros @sz
+      @w  = list_zeros @sz
+      @dw = list_zeros @sz
 
       for i, v in ipairs @sz
         @w[i] = v
@@ -28,8 +27,8 @@ class Vol
 
       n = sx * sy * sz
 
-      @w  = zeros n
-      @dw = zeros n
+      @w  = list_zeros n
+      @dw = list_zeros n
 
       if not c
         ----------------------------------
@@ -71,10 +70,10 @@ class Vol
       @dw[ix] += v
 
     clone_and_zero: () =>
-      return new Vol @sx, @sy, @sz, 0
+      return Vol @sx, @sy, @sz, 0
 
     clone: () =>
-      vol = new Vol @sx, @sy, @sz, 0
+      vol = Vol @sx, @sy, @sz, 0
       for i = 1, #@w
         vol.w[i] = @w[i]
       vol

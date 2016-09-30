@@ -14,7 +14,7 @@ augment = (vol, crop, dx, dy, fliplr) ->
   -- randomly sample a crop in input volume
   local W
   if crop != vol.sx or dx != 0 or dy != 0
-    W = new Vol crop, crop, vol.sz, 0
+    W = Vol crop, crop, vol.sz, 0
     for x = 1, crop
       for y = 1, crop
         if x + dx < 0 or x + dx >= vol.sx or y + dy < 0 or y + dy >= vol.sy
