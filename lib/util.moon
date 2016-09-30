@@ -4,7 +4,7 @@ export *
 return_v = false
 val_v    = 0
 
-gaussRandom = () ->
+gaussRandom = ->
   if return_v
     return_v = false
     return val_v
