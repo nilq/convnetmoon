@@ -54,10 +54,57 @@ class ConvLayer
             oy = y + dy
             for fx = 1, f.sx
               ox = x + fx
-              if oy >= 0 and oy < vol_sy and ox >= 0 and ox < vol_sx
+              if oy >= 1 and oy < vol_sy and ox >= 1 and ox < vol_sx
                 for fd = 0, f.z
                   a += f.w[((f.sx * fy) + fx) * f.z + fd] * vol.w[((vol_sx * oy) * vol.z + fd)]
           a += @biases.w[d]
           A\set ax, ay, d, a
     @out_act = A
     @out_act
+
+  backward: =>
+    V = @in_act
+
+    V_sx = bit.bor V.sx, 0
+    V_sy = bit.bor V.sy, 0
+
+    xy_stride = bit.bor @stride, 0
+
+    for d = 1, @out_sz
+      f = @filter
+      x = bit.bor -@pad, 0
+      y = bit.bor -@pad, 0
+
+      for ay = 1, @out_sy
+        x = bit.bor -@pad
+        for ax = 1, @out_sx
+          chain_grad = @out_act\get_grad ax, ay, d
+          for fy = 1, f.sy
+            oy = y + fy
+            for fx = 1, f.sx
+              ox = x + fx
+              if oy >= 1 and oy < vol_sy and ox >= 1 and ox < vol_sx
+                for fd = 1, f.sz
+                  ix1 = ((V_sx * oy) + ox) * V.sz + fd
+                  ix2 = ((f.sx * fy) + fx) * f.sz + fd
+
+                  f.dw[ix2] += V.w[ix1] * chain_grad
+                  V.dw[ix1] += f.w[ix2] * chain_grad
+          @biases.dw[d] += chain_grad
+
+  get_params_and_grads: =>
+    response = {}
+    for i = 1, @out_sz
+      response[#response + 1] = {
+        params: @filters[i].w,
+        grads: @filters[i].dw,
+        l2_decay_mul: @l2_decay_mul,
+        l1_decay_mul: @l1_decay_mul,
+      }
+    response[#response + 1] = {
+      params: @biases.w,
+      grads: @biases.dw,
+      l2_decay_mul: 0,
+      l1_decay_mul: 0,
+    }
+    response
