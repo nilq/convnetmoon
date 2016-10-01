@@ -41,3 +41,12 @@ prob = net\forward x
 
 print "probability that 'x' is class '1': " .. prob.w[1]
 ```
+
+output:
+
+```
+probability that 'x' is class '1': 0.10565505576001
+training ...
+probability that 'x' is class '1': 1
+```
+
