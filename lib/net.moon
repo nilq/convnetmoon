@@ -94,6 +94,8 @@ class Net
           @layers[#@layers + 1] = TanhLayer d
         when "maxout"
           @layers[#@layers + 1] = MaxoutLayer d
+        when "lrn"
+          @layers[#@layers + 1] = LocalResponseNormalizationLayer d
         else
           error "[error] trying to use undefined layer '" .. d.type .. "'!"
       -- debug/test
