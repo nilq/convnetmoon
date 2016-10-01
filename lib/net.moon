@@ -94,6 +94,8 @@ class Net
           @layers[#@layers + 1] = TanhLayer d
         when "maxout"
           @layers[#@layers + 1] = MaxoutLayer d
+        when "pool"
+          @layers[#@layers + 1] = PoolLayer d
         when "lrn"
           @layers[#@layers + 1] = LocalResponseNormalizationLayer d
         else

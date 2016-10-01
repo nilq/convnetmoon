@@ -136,7 +136,7 @@ class MaxoutLayer
         V2.w[i] = a
         @switches[i] = ix + ai
     else
-      n = 0 -- switch counter
+      n = 1 -- switch counter
       for x = 1, V.sx
         for y = 1, V.sy
           for i = 1, N
@@ -168,7 +168,7 @@ class MaxoutLayer
         chain_grad = V2.dw[i]
         V.dw[@switches[i]] = chain_grad
     else
-      n = 0
+      n = 1
       for x = 1, V2.sx
         for y = 1, V2.sy
           for i = 1, N
