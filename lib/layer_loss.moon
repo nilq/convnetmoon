@@ -52,6 +52,7 @@ class SoftmaxLayer
     @out_act
 
   backward: (y) =>
+
     x = @in_act
     x.dw = list_zeros #x.w
 

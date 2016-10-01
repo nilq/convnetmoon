@@ -100,8 +100,6 @@ class Net
           @layers[#@layers + 1] = LocalResponseNormalizationLayer d
         else
           error "[error] trying to use undefined layer '" .. d.type .. "'!"
-      -- debug/test
-      @layers[#@layers + 1] = {out_sx: 1, out_sy: 1, out_sz: 1}
 
   forward: (vol, train) =>
     act = @layers[1]\forward vol, train
@@ -118,8 +116,8 @@ class Net
   -- backpropagation: compute gradients w.r.t. all parameters
   backward: (y) =>
     N = #@layers
-    loss = @layers[N - 1]\backward y
-    for i = N - 2, 1, -1
+    loss = @layers[N]\backward y
+    for i = N - 1, 1, -1
       @layers[i]\backward!
     loss
 

@@ -49,7 +49,7 @@ class Trainer
         -- 'adagrad' requires 'gsum'
         -- 'adam' and 'adadelta' requires 'gsum' and 'xsum'
         ----------------------------------
-        for i = 1, @pg_list
+        for i = 1, #pg_list
           @gsum[#@gsum + 1] = list_zeros #pg_list[i].params
           if @method == "adam" or @method == "adadelta"
             @xsum[#@xsum + 1] = list_zeros #pg_list[i].params

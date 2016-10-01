@@ -18,8 +18,8 @@ class Vol
       @w  = list_zeros @sz
       @dw = list_zeros @sz
 
-      for i, v in ipairs @sz
-        @w[i] = v
+      for i = 1, @sz
+        @w[i] = sx[i]
     else
       @sx = sx
       @sy = sy
@@ -45,47 +45,47 @@ class Vol
 
     -- prototype!
 
-    get: (x, y, z) =>
-      ix = (@sx * y + x) * @sz + z
-      @w[ix]
+  get: (x, y, z) =>
+    ix = (@sx * y + x) * @sz + z
+    @w[ix]
 
-    set: (x, y, z, v) =>
-      ix = (@sx * y + x) * @sz + z
-      @w[ix] = v
+  set: (x, y, z, v) =>
+    ix = (@sx * y + x) * @sz + z
+    @w[ix] = v
 
-    add: (x, y, z, v) =>
-      ix = (@sx * y + x) * @sz + z
-      @w[ix] += v
+  add: (x, y, z, v) =>
+    ix = (@sx * y + x) * @sz + z
+    @w[ix] += v
 
-    get_grad: (x, y, z) =>
-      ix = (@sx * y + x) * @sz + z
-      @dw[ix]
+  get_grad: (x, y, z) =>
+    ix = (@sx * y + x) * @sz + z
+    @dw[ix]
 
-    set_grad: (x, y, z, v) =>
-      ix = (@sx * y + x) * @sz + z
-      @dw[ix] = v
+  set_grad: (x, y, z, v) =>
+    ix = (@sx * y + x) * @sz + z
+    @dw[ix] = v
 
-    add_grad: (x, y, z, v) =>
-      ix = (@sx * y + x) * @sz + z
-      @dw[ix] += v
+  add_grad: (x, y, z, v) =>
+    ix = (@sx * y + x) * @sz + z
+    @dw[ix] += v
 
-    clone_and_zero: () =>
-      return Vol @sx, @sy, @sz, 0
+  clone_and_zero: () =>
+    return Vol @sx, @sy, @sz, 0
 
-    clone: () =>
-      vol = Vol @sx, @sy, @sz, 0
-      for i = 1, #@w
-        vol.w[i] = @w[i]
-      vol
+  clone: () =>
+    vol = Vol @sx, @sy, @sz, 0
+    for i = 1, #@w
+      vol.w[i] = @w[i]
+    vol
 
-    add_from: (vol) =>
-      for i, v in ipairs vol.w
-        @w[i] += v
+  add_from: (vol) =>
+    for i, v in ipairs vol.w
+      @w[i] += v
 
-    add_from_scaled: (vol, s) =>
-      for i, v in ipairs vol.w
-        @w[i] += v * s
+  add_from_scaled: (vol, s) =>
+    for i, v in ipairs vol.w
+      @w[i] += v * s
 
-    set_const: (a) =>
-      for i = 1, #@w
-        @w[i] = a
+  set_const: (a) =>
+    for i = 1, #@w
+      @w[i] = a
