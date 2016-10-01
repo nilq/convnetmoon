@@ -53,7 +53,7 @@ class Net
             gs = d.group_size or 2
             new_defs[#new_defs + 1] = {type: "maxout", group_size: gs}
           else
-            error "trying to use undefined activation '" .. (d.activation or "nil") .. "'"
+            error "[error] trying to use undefined activation '" .. (d.activation or "nil") .. "'"
         if d.type != "dropout" and d.drop_prob != nil
           new_defs[#new_defs + 1] = {type: "dropout", drop_prob: d.drop_prob}
       new_defs
@@ -76,8 +76,12 @@ class Net
           @layers[#@layers + 1] = FullyConnLayer d
         when "conv"
           @layers[#@layers + 1] = ConvLayer d
+        when "input"
+          @layers[#@layers + 1] = InputLayer d
+        when "softmax"
+          @layers[#@layers + 1] = SoftmaxLayer d
         else
-          error "[error] undefined layer type '" .. d.type .. "'!"
+          error "[error] trying to use undefined layer '" .. d.type .. "'!"
       -- debug/test
       @layers[#@layers + 1] = {out_sx: 1, out_sy: 1, out_sz: 1}
 

@@ -6,6 +6,9 @@ require "lib/net"
 require "lib/trainer"
 
 require "lib/dot_layer"
+require "lib/input_layer"
+
+require "lib/layer_loss"
 
 math.sign = (n) ->
   if n < 0
