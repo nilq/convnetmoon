@@ -21,7 +21,7 @@ class DropoutLayer
   forward: (vol, train) =>
     @in_act = vol
 
-    vol2 = table.deepcopy vol
+    vol2 = vol\clone!
     N = #vol.w
 
     if train

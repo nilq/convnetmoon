@@ -1,5 +1,3 @@
-require "lib/extern/deepcopy"
-
 require "lib/util"
 require "lib/vol"
 require "lib/vol_util"
@@ -10,6 +8,7 @@ require "lib/trainer"
 require "lib/dot_layer"
 require "lib/input_layer"
 require "lib/dropout_layer"
+require "lib/nonlinear_layer"
 
 require "lib/layer_loss"
 
@@ -24,7 +23,7 @@ math.sign = (n) ->
 
 n = Net!
 
-cl = DropoutLayer {sx: 2, filters: 1, in_sz: 3, in_sx: 1, in_sy: 2}
+cl = TanhLayer {sx: 2, filters: 1, in_sz: 3, in_sx: 1, in_sy: 2}
 
 n\make_layers {
   {type: "input", out_sx: 1, out_sy: 1, out_sz: 1},

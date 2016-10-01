@@ -85,7 +85,13 @@ class Net
         when "svm"
           @layers[#@layers + 1] = SVMLayer d
         when "dropout"
-          @layers[#@layers + 1] = DropoutLayer
+          @layers[#@layers + 1] = DropoutLayer d
+        when "relu"
+          @layers[#@layers + 1] = ReluLayer d
+        when "sigmoid"
+          @layers[#@layers + 1] = SigmoidLayer d
+        when "tanh"
+          @layers[#@layers + 1] = TanhLayer d
         else
           error "[error] trying to use undefined layer '" .. d.type .. "'!"
       -- debug/test
