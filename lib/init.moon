@@ -23,11 +23,9 @@ math.sign = (n) ->
 
 n = Net!
 
-cl = TanhLayer {sx: 2, filters: 1, in_sz: 3, in_sx: 1, in_sy: 2}
-
 n\make_layers {
   {type: "input", out_sx: 1, out_sy: 1, out_sz: 1},
-  {type: "fc", num_neurons: 6, activation: "tanh"},
+  {type: "fc", num_neurons: 6, activation: "maxout"},
   {type: "softmax", num_classes: 2},
 }
 

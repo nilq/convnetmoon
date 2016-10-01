@@ -92,6 +92,8 @@ class Net
           @layers[#@layers + 1] = SigmoidLayer d
         when "tanh"
           @layers[#@layers + 1] = TanhLayer d
+        when "maxout"
+          @layers[#@layers + 1] = MaxoutLayer d
         else
           error "[error] trying to use undefined layer '" .. d.type .. "'!"
       -- debug/test
