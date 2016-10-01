@@ -80,6 +80,10 @@ class Net
           @layers[#@layers + 1] = InputLayer d
         when "softmax"
           @layers[#@layers + 1] = SoftmaxLayer d
+        when "regression"
+          @layers[#@layers + 1] = RegressionLayer d
+        when "svm"
+          @layers[#@layers + 1] = SVMLayer d
         else
           error "[error] trying to use undefined layer '" .. d.type .. "'!"
       -- debug/test
