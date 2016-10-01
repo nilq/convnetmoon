@@ -141,7 +141,7 @@ class FullyConnLayer
       a += @biases.w[i]
       A.w[i] = a
     @out_act = A
-    out_act
+    @out_act
 
   backward: =>
     V = @in_act
