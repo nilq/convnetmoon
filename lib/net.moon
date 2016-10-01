@@ -71,10 +71,13 @@ class Net
         d.in_sy = prev.out_sy
         d.in_sz = prev.out_sz
 
-      ----------------------------------
-      -- TODO: Construction of layers using switch!
-      ----------------------------------
-
+      switch d.type
+        when "fc"
+          @layers[#@layers + 1] = FullyConnLayer d
+        when "conv"
+          @layers[#@layers + 1] = ConvLayer d
+        else
+          error "[error] undefined layer type '" .. d.type .. "'!"
       -- debug/test
       @layers[#@layers + 1] = {out_sx: 1, out_sy: 1, out_sz: 1}
 
