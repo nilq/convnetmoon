@@ -16,7 +16,7 @@ math.sign = (n) ->
 
 n = Net!
 
-cl = ConvLayer {sx: 2, filters: 1, in_sz: 3, in_sx: 1, in_sy: 2}
+cl = FullyConnLayer {sx: 2, filters: 1, in_sz: 3, in_sx: 1, in_sy: 2}
 
 n\make_layers {
   {type: "input", out_sx: 1, out_sy: 1, out_sz: 1},

@@ -108,3 +108,66 @@ class ConvLayer
       l1_decay_mul: 0,
     }
     response
+
+class FullyConnLayer
+  new: (info) =>
+    info = info or {}
+
+    @out_sz = info.num_neurons or info.filters
+
+    @l1_decay_mul = info.l1_decay_mul or 0
+    @l2_decay_mul = info.l2_decay_mul or 1
+
+    @num_inputs = info.in_sx * info.in_sy * info.in_sz
+    @out_sx = 1
+    @out_sy = 1
+    @layer_type = "fc"
+
+    bias = info.bias_pref or 0
+    @filters = {}
+    for i = 1, @out_sz
+      @filters[#@filters + 1] = Vol 1, 1, @num_inputs
+    @biases = Vol 1, 1, @out_sz, bias
+
+  forward: (vol, train) =>
+    @in_act = vol
+    A = Vol 1, 1, @out_sz, 0
+
+    for i = 1, @out_sz
+      a = 0
+      wi = @filters[i].w
+      for d = 1, @num_inputs
+        a += vol.w[d] * wi[d]
+      a += @biases.w[i]
+      A.w[i] = a
+    @out_act = A
+    out_act
+
+  backward: =>
+    V = @in_act
+    V.dw = zeros #V.w -- zero out gradients
+
+    for i = 1, @out_sz
+      tfi = @filters[i]
+      chain_grad = @out_act.dw[i]
+      for d = 1, @num_inputs
+        V.dw[d] += tfi.w[d] * chain_grad
+        tfi.dw[d] += V.w[d] * chain_grad
+      @biases.dw[i] += chain_grad
+
+  get_params_and_grads: =>
+    response = {}
+    for i = 1, @out_sz
+      response[#response + 1] = {
+        params: @filters[i].w,
+        grads: @filters[i].dw,
+        l2_decay_mul: @l2_decay_mul,
+        l1_decay_mul: @l1_decay_mul,
+      }
+    response[#response + 1] = {
+      params: @biases.w,
+      grads: @biases.dw,
+      l2_decay_mul: 0,
+      l1_decay_mul: 0,
+    }
+    response
