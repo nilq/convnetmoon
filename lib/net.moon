@@ -84,6 +84,8 @@ class Net
           @layers[#@layers + 1] = RegressionLayer d
         when "svm"
           @layers[#@layers + 1] = SVMLayer d
+        when "dropout"
+          @layers[#@layers + 1] = DropoutLayer
         else
           error "[error] trying to use undefined layer '" .. d.type .. "'!"
       -- debug/test

@@ -145,7 +145,7 @@ class FullyConnLayer
 
   backward: =>
     V = @in_act
-    V.dw = zeros #V.w -- zero out gradients
+    V.dw = list_zeros #V.w -- zero out gradients
 
     for i = 1, @out_sz
       tfi = @filters[i]

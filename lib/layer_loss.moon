@@ -34,7 +34,7 @@ class SoftmaxLayer
         amax = as[i]
 
     -- carefully compute exponentials
-    es = zeros @out_sz
+    es = list_zeros @out_sz
     esum = 0
     for i = 1, @out_sz
       e = math.exp as[i] - amax
@@ -53,7 +53,7 @@ class SoftmaxLayer
 
   backward: (y) =>
     x = @in_act
-    x.dw = zeros #x.w
+    x.dw = list_zeros #x.w
 
     for i = 1, @out_sz
       local indicator
@@ -89,7 +89,7 @@ class RegressionLayer
 
   backwrad: (y) =>
     x = @in_act
-    x.dw = zeros #x.w
+    x.dw = list_zeros #x.w
     loss = 0
     if (type y) == "table"
       for i = 1, @out_sz
@@ -131,7 +131,7 @@ class SVMLayer
 
   backwrad: (y) =>
     x = @in_act
-    x.dw = zeros #x.w
+    x.dw = list_zeros #x.w
 
     ----------------------------------
     -- Using structured loss here, which means that

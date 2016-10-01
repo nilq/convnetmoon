@@ -50,9 +50,9 @@ class Trainer
         -- 'adam' and 'adadelta' requires 'gsum' and 'xsum'
         ----------------------------------
         for i = 1, @pg_list
-          @gsum[#@gsum + 1] = zeros #pg_list[i].params
+          @gsum[#@gsum + 1] = list_zeros #pg_list[i].params
           if @method == "adam" or @method == "adadelta"
-            @xsum[#@xsum + 1] = zeros #pg_list[i].params
+            @xsum[#@xsum + 1] = list_zeros #pg_list[i].params
           else
             @xsum[#@xsum + 1] = nil
       -- perform an update for all sets of weights
