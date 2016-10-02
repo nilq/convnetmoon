@@ -29,7 +29,10 @@ randn = (m, s) ->
 -- table utilities
 
 zeros = (n) ->
-  {0 for i = 1, n}
+  l = {}
+  for i = 1, n
+    l[i] = 0
+  l
 
 contains = (l, e) ->
   for k, v in pairs l
@@ -61,7 +64,7 @@ maxmin = (l) ->
 
   {:max_v, :max_i, :min_v, :min_i, dv: max_v - min_v}
 
--- create random permutations of numbers
+-- create random permutations of numbers, in range [0 .. n-1]
 randperm = (n) ->
   i = n - 1
   l = {}
@@ -71,17 +74,17 @@ randperm = (n) ->
     j = math.floor math.random! * (i + 1)
     tmp = l[i]
     l[i] = l[j]
-    l[i] = tmp
+    l[j] = tmp
 
     i -= 1
   l
 
 -- sample from 'l' according to probabilities in 'p'
-weighted_sample = (l, p) ->
+weighted_sample = (l, pr) ->
   p = randf 0, 1
   p2 = 0
   for i = 1, #l
-    p2 += p[i]
+    p2 += pr[i]
     if p < p2
       return l[i]
 
@@ -97,6 +100,7 @@ get_opt = (o, k, d) ->
     r
 
 export util = {
+  :gauss_random,
   :randf,
   :randi,
   :randn,
