@@ -59,3 +59,14 @@ win\add 10
 print "[util][Window] average:", win\get_average!
 
 print "\n[util] all units passing; moving on.\n"
+
+----------------------------------
+-- VOL
+----------------------------------
+
+vol = Vol 5, 2, 6
+
+print "[Vol] [5, 2, 6] as JSON", vol\to_JSON!
+
+for k, v in pairs vol\to_JSON!
+  print "[JSON]", k, v

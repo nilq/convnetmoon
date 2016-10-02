@@ -1,6 +1,7 @@
 root = "convnetmoon/"
 modules = {
   "util",
+  "vol",
 }
 
 export json = require root .. "extern/json"
