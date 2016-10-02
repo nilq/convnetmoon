@@ -49,4 +49,13 @@ sample = util.weighted_sample {1, 2, 3, 4}, {0.1, 5, 9, 3}
 
 print "[util][weighted_sample]", sample
 
+print "\n[util][Window]"
+win = util.Window 4, 1
+win\add 10
+win\add 10
+win\add 12
+win\add 10
+
+print "[util][Window] average:", win\get_average!
+
 print "\n[util] all units passing; moving on.\n"

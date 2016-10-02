@@ -99,6 +99,32 @@ get_opt = (o, k, d) ->
         r = o[f]
     r
 
+save_json = (d) ->
+  json\encode_pretty d
+
+load_json = (d) ->
+  json\decode d
+
+class Window
+  new: (@size, @min_size) =>
+    @v = {}
+    @sum = 0
+
+  add: (v) =>
+    if #@v < @size
+      @v[#@v + 1] = v
+      @sum += v
+
+  get_average: =>
+    if #@v < @min_size
+      return -1
+    else
+      return @sum / #@v
+
+  reset: =>
+    @v = {}
+    @sum = 0
+
 export util = {
   :gauss_random,
   :randf,
@@ -111,4 +137,7 @@ export util = {
   :unique,
   :contains,
   :get_opt,
+  :save_json,
+  :load_json,
+  :Window,
 }
