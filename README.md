@@ -8,7 +8,7 @@ ConvNetMoon is a MoonScript implementation of neural networks, based on ConvNetJ
 
 ---
 
-**[STATUS]** I'll start doing tests and demos now.
+**[STATUS]** I will fix things once I'm less tired.
 
 ---
 ##Example
@@ -41,3 +41,12 @@ prob = net\forward x
 
 print "probability that 'x' is class '1': " .. prob.w[1]
 ```
+
+output:
+
+```
+probability that 'x' is class '1': 0.10565505576001
+training ...
+probability that 'x' is class '1': 1
+```
+
