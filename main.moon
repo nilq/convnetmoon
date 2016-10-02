@@ -9,7 +9,7 @@ layer_defs = {
 net = Net!
 net\make_layers layer_defs
 
-x = Vol {0.3, -0.5}
+x = Vol {0.4, -1.5}
 
 prob = net\forward x
 
