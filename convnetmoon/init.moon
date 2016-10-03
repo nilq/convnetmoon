@@ -5,6 +5,7 @@ modules = {
   "net",
   "trainer",
   "layers/input",
+  "layers/dotproduct",
 }
 
 export json = require root .. "extern/json"

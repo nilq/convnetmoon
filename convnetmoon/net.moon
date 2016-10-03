@@ -106,7 +106,7 @@ export class Net
         when "relu"
           print "itsha boi relu"
         when "fc"
-          print "yea boi"--layer = FullyConnLayer l
+          layer = FullyConnectedLayer l
         when "capsule"
           continue
         else
