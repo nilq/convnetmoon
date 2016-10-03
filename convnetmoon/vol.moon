@@ -13,13 +13,13 @@ export class Vol
     if "table" == type sx
       @sx = 1
       @sy = 1
-      @depth = #@sx
+      @depth = #sx
 
       @w  = util.zeros @depth
       @dw = util.zeros @depth
 
-      for i = 1, #@sx
-        @w[i] = @sx[i]
+      for i = 1, #sx
+        @w[i] = sx[i]
     else
       @sx = sx
       @sy = sy

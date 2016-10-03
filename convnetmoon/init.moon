@@ -3,6 +3,7 @@ modules = {
   "util",
   "vol",
   "net",
+  "trainer",
 }
 
 export json = require root .. "extern/json"
