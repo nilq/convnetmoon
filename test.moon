@@ -70,3 +70,30 @@ print "[Vol] [5, 2, 6] as JSON", vol\to_JSON!
 
 for k, v in pairs vol\to_JSON!
   print "[JSON]", k, v
+
+print "\n[actual json]\n\n" .. util.save_json vol\to_JSON!
+
+----------------------------------
+-- NET
+----------------------------------
+
+print "\n [net]"
+
+defs = {
+  {
+    ["type"]: "input",
+  },
+  {
+    ["type"]: "fc",
+    ["activation"]: "relu",
+  }
+  {
+    ["type"]: "softmax",
+  },
+}
+
+boi = Net defs
+
+print "\n [net] Network as JSON ...\n"
+
+print util.save_json boi\to_JSON!
