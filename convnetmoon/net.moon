@@ -102,7 +102,7 @@ export class Net
       }
       switch layer_type
         when "input"
-          print "lol input"
+          layer = InputLayer l
         when "relu"
           print "itsha boi relu"
         when "fc"

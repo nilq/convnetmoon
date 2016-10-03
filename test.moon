@@ -102,7 +102,7 @@ print util.save_json boi\to_JSON!
 -- TRAINER
 ----------------------------------
 print "[trainer] your boi trainer here"
-t = Trainer boi, {["method"]: "adadelta", "batch_size": 2, ["l2_decay"]: 0.0001}
+t = Trainer boi, {["method"]: "adadelta", ["batch_size"]: 2, ["l2_decay"]: 0.0001}
 
 x = Vol {0.3, 0.5}
 
