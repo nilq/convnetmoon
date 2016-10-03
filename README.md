@@ -12,4 +12,6 @@ ConvNetMoon is a MoonScript implementation of neural networks, based on ConvNetJ
 
 ---
 
-The primary reason I'm making this thing is to express my eternal love to the MoonScript language. It is for all the people out there (me) who want to write machine learning software in vanilla MoonScript, from vanilla MoonScript.
+The primary reason I'm making this thing is to express my eternal love to the MoonScript language. It is for educational purposes and for everyone to use.
+
+Being made in MoonScript will make ConvNetMoon(when compiled) able to work in any Lua environment(basically everywhere) ... which is nice.
