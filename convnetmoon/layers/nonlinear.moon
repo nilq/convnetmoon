@@ -9,7 +9,7 @@ export class ReluLayer
     @out_sy = opt["in_sy"]
     @out_depth = opt["in_depth"]
 
-    @lauer_type = "relu"
+    @layer_type = "relu"
 
   forward: (V, is_training) =>
     @in_act = V
