@@ -26,20 +26,19 @@ export class Trainer
 
   train: (x, y) =>
     @k += 1
+
     start = os.time!
     @net\forward x, true -- training
     fwd_time = os.difftime os.time!, start
 
     start = os.time!
     cost_loss = @net\backward y
-    print "[Hey]", cost_loss
-
+    print "pre-loss:", cost_loss
     l2_decay_loss = 0
     l1_decay_loss = 0
 
     bwd_time = os.difftime os.time!, start
 
-    @k += 1
     if @k % @batch_size == 0
       pglist = @net\get_params_and_grads!
 
@@ -120,5 +119,4 @@ export class Trainer
       ["l1_decay_loss"]: l1_decay_loss,
       ["cost_loss"]: cost_loss,
       ["loss"]: cost_loss + l1_decay_loss + l2_decay_loss,
-      ["accuracy"]: @win\get_average!
     }

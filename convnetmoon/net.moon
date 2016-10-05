@@ -25,16 +25,17 @@ export class Net
             ["type"]: "fc",
             ["num_neurons"]: l["num_classes"],
           }
-        elseif layer_type == "regression"
+        if layer_type == "regression"
           new_layers[#new_layers + 1] = {
             ["type"]: "fc",
             ["num_neurons"]: l["num_neurons"],
           }
-        elseif ((layer_type == "fc" or layer_type == "conv") and l["bias_pref"] == nil)
+        if ((layer_type == "fc" or layer_type == "conv") and l["bias_pref"] == nil)
           l["bias_pref"] = 0
           if l["activation"] == "relu"
             l["bias_pref"] = 0.1
-        elseif layer_type != "capsule"
+
+        if layer_type != "capsule"
           new_layers[#new_layers + 1] = l
 
         if l["activation"]
@@ -99,7 +100,7 @@ export class Net
         when "fc"
           layer = FullyConnectedLayer l
         when "softmax"
-          print "I take the blame. fucking softmax layer"
+          layer = SoftmaxLayer l
         when "capsule"
           continue
         else

@@ -110,7 +110,22 @@ print util.save_json boi\to_JSON!
 ----------------------------------
 print "[trainer] your boi trainer here"
 t = Trainer boi, {["method"]: "adadelta", ["batch_size"]: 2, ["l2_decay"]: 0.0001}
-
 x = Vol {0.3, 0.5}
+t\train x, 1
 
-t\train x, 0
+print "[TRAINING] SUCCESSSSS\n"
+
+print "network:"
+print "loss:", t["cost_loss"]
+print #(boi\forward x).w
+for i = 1, #(boi\forward x).w
+  print (boi\forward x).w[i]
+print "\ntraining ..."
+stuff_and_things = t\train x, 1
+print "training done ...\n"
+print "network again:"
+print #(boi\forward x).w
+for i = 1, #(boi\forward x).w
+  print (boi\forward x).w[i]
+
+print "loss!!:", stuff_and_things["cost_loss"]
