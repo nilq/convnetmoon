@@ -97,6 +97,8 @@ export class Net
           layer = InputLayer l
         when "relu"
           layer = ReluLayer l
+        when "sigmoid"
+          layer = SigmoidLayer l
         when "fc"
           layer = FullyConnectedLayer l
         when "softmax"
