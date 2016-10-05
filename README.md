@@ -8,7 +8,7 @@ ConvNetMoon is a MoonScript implementation of neural networks, based on ConvNetJ
 
 ---
 
-**[STATUS]** I'll leave this here for a bit.
+**[STATUS]** Finishing up different types of layers. Way too many commits on this repo ...
 
 ---
 
