@@ -88,10 +88,14 @@ defs = {
   },
   {
     ["type"]: "fc",
+    ["num_classes"]: 2,
+    ["num_neurons"]: 30,
     ["activation"]: "relu",
   }
   {
     ["type"]: "softmax",
+    ["num_classes"]: 2,
+    ["num_neurons"]: 30,
   },
 }
 

@@ -17,6 +17,8 @@ class ConvLayer
     @stride = util.get_opt opt, "stride", 1 -- stride at which we apply filters
     @pad = util.get_opt opt, "stride", 0
 
+    @s = opt["in_sx"] * opt["in_sy"] * opt["in_depth"]
+
     @l2_decay_mul = util.get_opt opt, "l2_decay_mul", 1
     @l1_decay_mul = util.get_opt opt, "l1_decay_mul", 0
 
@@ -34,7 +36,7 @@ class ConvLayer
     bias = util.get_opt opt, "bias_pref", 0
 
     for i = 1, @out_depth
-      @filters[#@filters + 1] = Vol 1, 1, @num_inputs
+      @filters[#@filters + 1] = Vol 1, 1, @s
     @biases = Vol 1, 1, @out_depth, bias
 
   forward: (V, is_training) =>
@@ -165,7 +167,7 @@ class FullyConnectedLayer
     @l2_decay_mul = util.get_opt opt, "l2_decay_mul", 1
     @l1_decay_mul = util.get_opt opt, "l1_decay_mul", 0
 
-    @num_inputs = opt["in_sx"] * opt["in_sy"] * opt["in_depth"]
+    @s = opt["in_sx"] * opt["in_sy"] * opt["in_depth"]
     @out_sx = 1
     @out_sy = 1
 
@@ -176,7 +178,7 @@ class FullyConnectedLayer
     @filters = {}
 
     for i = 1, @out_depth
-      @filters[#@filters + 1] = Vol 1, 1, @num_inputs
+      @filters[#@filters + 1] = Vol 1, 1, @s
     @biases = Vol 1, 1, @out_depth, bias
 
   forward: (V) =>
@@ -189,7 +191,7 @@ class FullyConnectedLayer
     for i = 1, @out_depth
       sum_a = 0
       fiw = @filters[i].w
-      for d = 1, #@num_inputs
+      for d = 1, @s
         sum_a += Vw[d] * fiw[d]
       sum_a += @biases.w[i]
       A.w[i] = sum_a
@@ -199,7 +201,7 @@ class FullyConnectedLayer
 
   backward: =>
     V = @in_act
-    V.dw = util.zeros #@V.w
+    V.dw = util.zeros #V.w
 
     ----------------------------------
     -- Compute gradient w.r.t. weights and data
@@ -208,7 +210,7 @@ class FullyConnectedLayer
       fi = @filters[i]
       chain_grad = @out_act.dw[i]
 
-      for d = 1, @num_inputs
+      for d = 1, @s
         V.dw[d]  += fi.w[d] * chain_grad -- gradient w.r.t. input data
         fi.dw[d] += V.w[d] * chain_grad  -- gradient w.r.t. parameters
 
@@ -237,7 +239,7 @@ class FullyConnectedLayer
       ["out_sx"]: @out_sx,
       ["out_sy"]: @out_sy,
       ["layer_type"]: @layer_type,
-      ["num_inputs"]: @num_inputs,
+      ["s"]: @s,
       ["l2_decay_mul"]: @l2_decay_mul,
       ["l1_decay_mul"]: @l1_decay_mul,
       ["filters"]: {v\to_JSON! for _, v in pairs @filters},
@@ -249,7 +251,7 @@ class FullyConnectedLayer
     @out_sx = json["out_sx"]
     @out_sy = json["out_sy"]
     @layer_type = json["layer_type"]
-    @num_inputs = json["num_inputs"]
+    @s = json["s"]
     @l2_decay_mul = json["l2_decay_mul"]
     @l1_decay_mul = json["l1_decay_mul"]
     @filters = [(Vol(0, 0, 0, 0)\from_JSON f) for f in json["filters"]]

@@ -13,7 +13,7 @@ export class InputLayer
 
   backward: =>
   get_params_and_grads: =>
-
+    {}
   to_JSON: =>
     {
       ["out_depth"]: @out_depth,

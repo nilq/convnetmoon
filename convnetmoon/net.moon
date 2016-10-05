@@ -85,28 +85,21 @@ export class Net
       l = all_layers[i]
       if i > 1
         prev = @layers[i - 1]
+        print "[prev]", prev.out_sx, prev.out_sy, prev.out_depth
         l["in_sx"] = prev.out_sx
         l["in_sy"] = prev.out_sy
         l["in_depth"] = prev.out_depth
       layer_type = l["type"]
-      layer = {
-        out_sx: 10,
-        out_sy: 10,
-        out_depth: 10,
-        to_JSON: =>
-          {
-            ["out_sx"]: @out_sx,
-            ["out_sy"]: @out_sy,
-            ["out_depth"]: @out_depth,
-          }
-      }
+      layer = {}
       switch layer_type
         when "input"
           layer = InputLayer l
         when "relu"
-          print "itsha boi relu"
+          layer = ReluLayer l
         when "fc"
           layer = FullyConnectedLayer l
+        when "softmax"
+          print "I take the blame. fucking softmax layer"
         when "capsule"
           continue
         else
@@ -142,8 +135,9 @@ export class Net
     ----------------------------------
     response = {}
     for i = 1, #@layers
+      print "[layer]", @layers[i].layer_type, i
       l_response = @layers[i]\get_params_and_grads!
-      for j = 1, #@l_response
+      for j = 1, #l_response
         response[#response + 1] = l_response[j]
     response
 

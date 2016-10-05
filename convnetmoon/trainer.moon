@@ -24,10 +24,6 @@ export class Trainer
     @gsum = {} -- last iteration's gradients (used for momentum)
     @xsum = {} -- used in 'adadelta'
 
-    @regression = false
-    if @layers[#@net.layers].layer_type == "regression"
-      @regression = true
-
   train: (x, y) =>
     @k += 1
     start = os.time!
@@ -36,18 +32,16 @@ export class Trainer
 
     start = os.time!
     cost_loss = @net\backward y
+    print "[Hey]", cost_loss
 
     l2_decay_loss = 0
     l1_decay_loss = 0
 
     bwd_time = os.difftime os.time!, start
 
-    if @regression and "table" != type y
-      print "[warning] a regression network requires a table of training output."
-
     @k += 1
     if @k % @batch_size == 0
-      pglist = @net\get_parameters_and_grads!
+      pglist = @net\get_params_and_grads!
 
       ----------------------------------
       -- Initialize lists for accumulators.
@@ -61,9 +55,9 @@ export class Trainer
         --    'adadelta' needs 'gsum' and 'xsum'
         ----------------------------------
         for _, e in pairs pglist
-          @gsum[#@gsum + 1] = util.zeros #@e["params"]
-          if @method == "adadelta" or @method == "adam"
-            @xsum[#@xsum + 1] = util.zeros #@e["params"]
+          @gsum[#@gsum + 1] = util.zeros #e["params"]
+          if @method == "adadelta"
+            @xsum[#@xsum + 1] = util.zeros #e["params"]
           else
             @xsum[#@xsum + 1] = {}
 
@@ -82,15 +76,13 @@ export class Trainer
         l2_decay = @l2_decay * l2_decay_mul
         l1_decay = @l1_decay * l1_decay_mul
 
-        for j = 1, #@p
+        for j = 1, #p
           l2_decay_loss += l2_decay * p[j]^2 / 2 -- accumulate weight decays
           l1_decay_loss += l1_decay * math.abs p[j]
 
-          l1_grad
+          l1_grad = -p[j]
           if p[j] > 0
             l1_grad = 0
-          else
-            l1_grad = -1
           l2_grad = l2_decay * p[j]
 
           gij = (l2_grad + l1_grad + g[j]) / @batch_size -- raw batch gradient
