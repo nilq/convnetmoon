@@ -82,6 +82,9 @@ print "\n [net]"
 defs = {
   {
     ["type"]: "input",
+    ["out_sx"]: 2,
+    ["out_sy"]: 1,
+    ["out_depth"]: 1
   },
   {
     ["type"]: "fc",

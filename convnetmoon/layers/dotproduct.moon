@@ -33,7 +33,7 @@ class ConvLayer
 
     bias = util.get_opt opt, "bias_pref", 0
 
-    for i = 1, #@out_depth
+    for i = 1, @out_depth
       @filters[#@filters + 1] = Vol 1, 1, @num_inputs
     @biases = Vol 1, 1, @out_depth, bias
 
@@ -175,7 +175,7 @@ class FullyConnectedLayer
 
     @filters = {}
 
-    for i = 1, #@out_depth
+    for i = 1, @out_depth
       @filters[#@filters + 1] = Vol 1, 1, @num_inputs
     @biases = Vol 1, 1, @out_depth, bias
 
@@ -186,7 +186,7 @@ class FullyConnectedLayer
     Vw = V.w
 
     -- dot(W, x) + b
-    for i = 1, #@out_depth
+    for i = 1, @out_depth
       sum_a = 0
       fiw = @filters[i].w
       for d = 1, #@num_inputs
@@ -204,7 +204,7 @@ class FullyConnectedLayer
     ----------------------------------
     -- Compute gradient w.r.t. weights and data
     ----------------------------------
-    for i = 1, #@out_depth
+    for i = 1, @out_depth
       fi = @filters[i]
       chain_grad = @out_act.dw[i]
 
@@ -216,7 +216,7 @@ class FullyConnectedLayer
 
   get_params_and_grads: =>
     response = {}
-    for d = 1, #@out_depth
+    for d = 1, @out_depth
       response[#response + 1] = {
         ["params"]: @filters[d].w,
         ["grads"]: @filters[d].dw,

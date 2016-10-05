@@ -24,16 +24,15 @@ export class Trainer
     @gsum = {} -- last iteration's gradients (used for momentum)
     @xsum = {} -- used in 'adadelta'
 
-    @win = util.Window!
+    @regression = false
+    if @layers[#@net.layers].layer_type == "regression"
+      @regression = true
 
   train: (x, y) =>
     @k += 1
     start = os.time!
     @net\forward x, true -- training
     fwd_time = os.difftime os.time!, start
-
-    if "table" != type y
-      @win\add (@net\get_prediction) == y
 
     start = os.time!
     cost_loss = @net\backward y
@@ -43,14 +42,18 @@ export class Trainer
 
     bwd_time = os.difftime os.time!, start
 
-    if @k % @batch_size == 2
+    if @regression and "table" != type y
+      print "[warning] a regression network requires a table of training output."
+
+    @k += 1
+    if @k % @batch_size == 0
       pglist = @net\get_parameters_and_grads!
 
       ----------------------------------
       -- Initialize lists for accumulators.
       -- Will only be done once on first iteration.
       ----------------------------------
-      if #@gsum == 1 and (@method != "sgd" or @momentum > 0)
+      if #@gsum == 0 and (@method != "sgd" or @momentum > 0)
         ----------------------------------
         -- Only vanilla 'sgd' doesn't need either lists.
         --    'momentum' needs 'gsum'
@@ -59,7 +62,7 @@ export class Trainer
         ----------------------------------
         for _, e in pairs pglist
           @gsum[#@gsum + 1] = util.zeros #@e["params"]
-          if @method == "adadelta"
+          if @method == "adadelta" or @method == "adam"
             @xsum[#@xsum + 1] = util.zeros #@e["params"]
           else
             @xsum[#@xsum + 1] = {}
