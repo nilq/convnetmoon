@@ -95,6 +95,8 @@ export class Net
       switch layer_type
         when "input"
           layer = InputLayer l
+        when "lrn"
+          layer = LocalResponseNormalizationLayer l
         when "relu"
           layer = ReluLayer l
         when "sigmoid"

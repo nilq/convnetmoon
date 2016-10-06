@@ -7,7 +7,8 @@ modules = {
   "layers/input",
   "layers/dotproduct",
   "layers/nonlinear",
-  "layers/loss"
+  "layers/loss",
+  "layers/normalization",
 }
 
 export json = require root .. "extern/json"
