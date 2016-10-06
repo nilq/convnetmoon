@@ -111,6 +111,8 @@ export class Net
           layer = SVMLayer l
         when "dropout"
           layer = DropoutLayer l
+        when "pooling"
+          layer = PoolingLayer l
         when "capsule"
           continue
         else

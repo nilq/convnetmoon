@@ -149,6 +149,11 @@ layer_defs = {
     ["activation"]: "relu",
   },
   {
+    ["type"]: "fc",
+    ["num_neurons"]: 20,
+    ["activation"]: "relu",
+  }
+  {
     ["type"]: "softmax",
     ["num_classes"]: 10,
   },

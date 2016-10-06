@@ -9,6 +9,8 @@ modules = {
   "layers/nonlinear",
   "layers/loss",
   "layers/normalization",
+  "layers/dropout",
+  "layers/pooling",
 }
 
 export json = require root .. "extern/json"
