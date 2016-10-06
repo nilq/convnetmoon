@@ -25,20 +25,16 @@ export class Net
             ["type"]: "fc",
             ["num_neurons"]: l["num_classes"],
           }
-        if layer_type == "regression"
+        elseif layer_type == "regression"
           new_layers[#new_layers + 1] = {
             ["type"]: "fc",
             ["num_neurons"]: l["num_neurons"],
           }
-        if ((layer_type == "fc" or layer_type == "conv") and l["bias_pref"] == nil)
+        elseif ((layer_type == "fc" or layer_type == "conv") and l["bias_pref"] == nil)
           l["bias_pref"] = 0
           if l["activation"] == "relu"
             l["bias_pref"] = 0.1
-
-        if layer_type != "capsule"
-          new_layers[#new_layers + 1] = l
-
-        if l["activation"]
+        elseif l["activation"]
           l_act = l["activation"]
           if l_act == "relu" or l_act == "sigmoid" or l_act == "tanh" or l_act == "mex"
             new_layers[#new_layers + 1] = {
@@ -49,14 +45,14 @@ export class Net
               ["type"]: l_act,
               ["group_size"]: l["group_size"] or 2,
             }
-          else
-            error "[net] invalid layer activation!"
+        elseif layer_type == "dropout"
+          new_layers[#new_layers + 1] = {
+            ["type"]: "dropout",
+            ["drop_prob"]: l["drop_prob"],
+          }
 
-      if layer_type == "dropout"
-        new_layers[#new_layers + 1] = {
-          ["type"]: "dropout",
-          ["drop_prob"]: l["drop_prob"],
-        }
+        if layer_type != "capsule"
+          new_layers[#new_layers + 1] = l
 
       if layer_type == "capsule"
         fc_recog = {
@@ -109,6 +105,10 @@ export class Net
           layer = FullyConnectedLayer l
         when "softmax"
           layer = SoftmaxLayer l
+        when "regression"
+          layer = RegressionLayer l
+        when "svm"
+          layer = SVMLayer l
         when "capsule"
           continue
         else
