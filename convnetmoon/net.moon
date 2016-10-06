@@ -99,6 +99,8 @@ export class Net
           layer = ReluLayer l
         when "sigmoid"
           layer = SigmoidLayer l
+        when "tanh"
+          layer = TanhLayer l
         when "fc"
           layer = FullyConnectedLayer l
         when "softmax"
