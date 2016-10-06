@@ -146,7 +146,7 @@ layer_defs = {
   {
     ["type"]: "fc",
     ["num_neurons"]: 20,
-    ["activation"]: "relu",
+    ["activation"]: "sigmoid",
   },
   {
     ["type"]: "softmax",
