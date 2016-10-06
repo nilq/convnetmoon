@@ -101,6 +101,8 @@ export class Net
           layer = SigmoidLayer l
         when "tanh"
           layer = TanhLayer l
+        when "maxout"
+          layer = MaxoutLayer l
         when "fc"
           layer = FullyConnectedLayer l
         when "softmax"

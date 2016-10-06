@@ -90,7 +90,7 @@ defs = {
     ["type"]: "fc",
     ["num_classes"]: 2,
     ["num_neurons"]: 30,
-    ["activation"]: "relu",
+    ["activation"]: "maxout",
   }
   {
     ["type"]: "softmax",
@@ -146,7 +146,7 @@ layer_defs = {
   {
     ["type"]: "fc",
     ["num_neurons"]: 20,
-    ["activation"]: "sigmoid",
+    ["activation"]: "maxout",
   },
   {
     ["type"]: "softmax",
