@@ -79,3 +79,41 @@ class SoftmaxLayer
     @out_sy = json["out_sy"]
     @layer_type = json["layer_type"]
     @num_inputs = json["num_inputs"]
+
+class RegressionLayer
+  ----------------------------------
+  -- Implements an 'L2' regression cost layer,
+  -- so penalizes 'sum_i(||x_i - y_i||^2)', where 'x' is its input
+  -- and 'y' is the user-provided array of supervising values.
+  ----------------------------------
+  new: (opt) =>
+    @num_inputs = opt["in_sx"] * opt["in_sy"] * opt["in_depth"]
+
+    @out_sx = 1
+    @out_sy = 1
+    @out_depth = @num_inputs
+
+    @layer_type = "regression"
+
+  forward: (V, is_training) =>
+    @in_act = V
+    @out_act = V
+    V
+
+  backward: (y) =>
+    ----------------------------------
+    -- 'y' is a list of size 'num_inputs'
+    -- compute and accumulate gradient w.r.t. weights and bias
+    -- - of this layer.
+    ----------------------------------
+    x = @in_act
+    x.dw = util.zeros #x.w
+    loss = 0
+
+    if "table" == type y
+      for i = 1, @out_depth
+        dy = x.w[i] - y[i]
+        x.dw[i] = dy
+        loss += 2 * dy^2
+    else
+      print "yo boi"
