@@ -109,6 +109,8 @@ export class Net
           layer = RegressionLayer l
         when "svm"
           layer = SVMLayer l
+        when "dropout"
+          layer = DropoutLayer l
         when "capsule"
           continue
         else
