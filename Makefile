@@ -2,8 +2,8 @@ build:
 	moonc convnetmoon/*.moon
 	moonc convnetmoon/*/*.moon
 test:
-	moonc convnetmoon/*.moon
-	moonc convnetmoon/*/*.moon
-
 	moonc test.moon
 	lua test.lua
+qlearn:
+	moonc deepqlearn.moon
+	lua deepqlearn.lua

@@ -33,7 +33,6 @@ export class Trainer
 
     start = os.time!
     cost_loss = @net\backward y
-    print "pre-loss:", cost_loss
     l2_decay_loss = 0
     l1_decay_loss = 0
 

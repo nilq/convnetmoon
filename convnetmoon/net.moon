@@ -82,7 +82,6 @@ export class Net
       l = all_layers[i]
       if i > 1
         prev = @layers[i - 1]
-        print "[prev]", prev.out_sx, prev.out_sy, prev.out_depth
         l["in_sx"] = prev.out_sx
         l["in_sy"] = prev.out_sy
         l["in_depth"] = prev.out_depth
@@ -148,7 +147,6 @@ export class Net
     ----------------------------------
     response = {}
     for i = 1, #@layers
-      print "[layer]", @layers[i].layer_type, i
       l_response = @layers[i]\get_params_and_grads!
       for j = 1, #l_response
         response[#response + 1] = l_response[j]

@@ -125,6 +125,11 @@ class Window
     @v = {}
     @sum = 0
 
+extend = (a, b) ->
+  for k, v in pairs b
+    table.insert a, v
+  return a
+
 export util = {
   :gauss_random,
   :randf,
@@ -140,4 +145,5 @@ export util = {
   :save_json,
   :load_json,
   :Window,
+  :extend,
 }
